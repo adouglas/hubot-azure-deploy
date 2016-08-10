@@ -21,6 +21,7 @@ deploymentStatusRoom = process.env.HUBOT_AZURE_DEPLOY_STATUS_ROOM
 module.exports = (robot) ->
 
   @robot.on "github-repo-event", (repo_event) =>
+    console.log('event');
     githubPayload = repo_event.payload
     robot.send {room: deploymentStatusRoom}, 'github-repo-event'
     if(repo_event.eventType ===  "pull_request")
