@@ -14,14 +14,17 @@
 # Author:
 #   Andrew Douglas <andrew.douglas@trurating.com>
 
-azureDeploy = require('../../azure-deploy')
+azureDeploy = require('../azure-deploy')
+
+deploymentStatusRoom = process.env.HUBOT_AZURE_DEPLOY_STATUS_ROOM
 
 module.exports = (robot) ->
 
   @robot.on "github-repo-event", (repo_event) =>
     githubPayload = repo_event.payload
+    robot.send {room: deploymentStatusRoom}, 'github-repo-event'
     if(repo_event.eventType ===  "pull_request")
       switch(githubPayload.action)
         when "opened"
-          azureDeploy.deployNewSiteSlot msg, azureOpts, deployOpts, (err, result) ->
-            robot.send {room: query.room}, message if message
+          #azureDeploy.deployNewSiteSlot msg, azureOpts, deployOpts, (err, result) ->
+          #  robot.send {room: query.room}, message if message
