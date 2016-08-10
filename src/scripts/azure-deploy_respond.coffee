@@ -16,4 +16,4 @@
 
 module.exports = (robot) ->
   robot.respond /deploy /i, (res) ->
-    res.reply "I'm afraid I can't let you do that."
+    res.reply "I'm afraid I can't let you do that yet."

@@ -93,7 +93,7 @@ class AzureDeploy
         siteSourceControl =
           repoUrl: deployRepoUrl
           branch: deployBranch
-          isManualIntegration: false
+          isManualIntegration: true
           deploymentRollbackEnabled: false
           isMercurial: false
         optionsopt = null
