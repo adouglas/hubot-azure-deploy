@@ -19,7 +19,7 @@ azureDeploy = require('../azure-deploy')
 deploymentStatusRoom = process.env.HUBOT_AZURE_DEPLOY_STATUS_ROOM
 
 module.exports = (robot) ->
-@robot.logger.error "here!!!"
+  @robot.logger.error "here!!!"
   @robot.on "github-repo-event", (repo_event) =>
     @robot.logger.error "event!!!"
     githubPayload = repo_event.payload
