@@ -76,20 +76,20 @@ class AzureDeploy
         siteConfig.appSettings =
           TARGET_BRANCH: deployOpts.targetBranch
           REQUIRES_GIT_OVERRIDE: true
-  #
-  #     @_newSiteSlot msg, azureClientId, azureSecret, azureDomain, azureResourceGroupName, azureWebSiteDeplymentId, azureWebSiteName, azureWebSiteSlot, deployRepoUrl, deployBranch, deployNoop, siteConfig, cb
-  #
-  #
-  # _newSiteSlot: (msg, azureClientId, azureSecret, azureDomain, azureResourceGroupName, azureWebSiteDeplymentId, azureWebSiteName, azureWebSiteSlot, deployRepoUrl, deployBranch, deployNoop, siteConfig, cb) ->
-  #   msRestAzure.loginWithServicePrincipalSecret azureClientId, azureSecret, azureDomain, (err, credentials) ->
-  #     if err?
-  #         cb(err)
-  #         return
-  #     client = new webSiteManagementClient(credentials, azureSubscriptionId)
-  #     optionsopt = null
-  #     deployopt = null
-  #     client.sites.createDeploymentSlot azureResourceGroupName, azureWebSiteName, azureWebSiteDeplymentId, azureWebSiteSlot, deployopt, optionsopt, (err, result, request, response) ->
-  #       if err?
+
+      @_newSiteSlot msg, azureClientId, azureSecret, azureDomain, azureResourceGroupName, azureWebSiteDeplymentId, azureWebSiteName, azureWebSiteSlot, deployRepoUrl, deployBranch, deployNoop, siteConfig, cb
+
+
+  _newSiteSlot: (msg, azureClientId, azureSecret, azureDomain, azureResourceGroupName, azureWebSiteDeplymentId, azureWebSiteName, azureWebSiteSlot, deployRepoUrl, deployBranch, deployNoop, siteConfig, cb) ->
+    msRestAzure.loginWithServicePrincipalSecret azureClientId, azureSecret, azureDomain, (err, credentials) ->
+      if err?
+          cb(err)
+          return
+      client = new webSiteManagementClient(credentials, azureSubscriptionId)
+      optionsopt = null
+      deployopt = null
+      client.sites.createDeploymentSlot azureResourceGroupName, azureWebSiteName, azureWebSiteDeplymentId, azureWebSiteSlot, deployopt, optionsopt, (err, result, request, response) ->
+        if err?
   #         cb(err)
   #         return
   #       siteSourceControl =

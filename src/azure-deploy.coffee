@@ -18,9 +18,9 @@ AzureDeploy = require('../lib/azure-deploy')
 _ = require('underscore')
 
 azureOpts =
-  resourceGroupName: process.env.HUBOT_AZURE_DEPLOY_RESOURCEGROUPNAME
-  webSiteDeplymentId: process.env.HUBOT_AZURE_DEPLOY_WEBSITE_DEPLYMENT_ID
-  webSiteName: process.env.HUBOT_AZURE_DEPLOY_WEBSITE_NAME
+  resourceGroupName: process.env.HUBOT_AZURE_DEPLOY_RESOURCEGROUPNAME # rg-analytics
+  webSiteDeplymentId: process.env.HUBOT_AZURE_DEPLOY_WEBSITE_DEPLYMENT_ID # /subscriptions/84cf6300-fc86-45aa-9bcb-f090602b7f5f/resourceGroups/rg-analytics/providers/Microsoft.Web/sites/tru-analytics-qa
+  webSiteName: process.env.HUBOT_AZURE_DEPLOY_WEBSITE_NAME # tru-analytics-qa
   webSiteSlot: process.env.HUBOT_AZURE_DEPLOY_WEBSITE_SLOT
 
 deployOpts =
@@ -31,7 +31,7 @@ deployOpts =
 deployOpts.pagerNoop = false if deployOpts.pagerNoop is "false" or deployOpts.pagerNoop is "off"
 
 module.exports = (robot) ->
-#  AzureDeploy = new AzureDeploy robot, process.env
+  AzureDeploy = new AzureDeploy robot, process.env
 
   deployNewSiteSlot: (msg, azureOpts, deployOpts, cb) ->
     azureOpts = _.extend(@azureOpts, azureOpts)

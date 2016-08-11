@@ -27,5 +27,11 @@ module.exports = (robot) ->
       switch githubPayload.action
         when "opened"
           robot.logger.info "opened!!!"
+          azureOpts =
+            webSiteSlot: 'pull+' + githubPayload.number
+          deployOpts =
+            repoUrl: githubPayload.pull_request.head.repo.git_url
+            branch: 'master'
+            targetBranch: 'refs/pull/' + githubPayload.number + '/merge'
           azureDeploy.deployNewSiteSlot msg, azureOpts, deployOpts, (err, result) ->
             robot.send {room: deploymentStatusRoom}, "done"
