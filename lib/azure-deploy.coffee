@@ -90,8 +90,8 @@ class AzureDeploy
       deployopt = null
       client.sites.createDeploymentSlot azureResourceGroupName, azureWebSiteName, azureWebSiteDeplymentId, azureWebSiteSlot, deployopt, optionsopt, (err, result, request, response) ->
         if err?
-  #         cb(err)
-  #         return
+           cb(err)
+           return
   #       siteSourceControl =
   #         repoUrl: deployRepoUrl
   #         branch: deployBranch
