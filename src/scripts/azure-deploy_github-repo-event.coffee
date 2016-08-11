@@ -29,6 +29,7 @@ module.exports = (robot) ->
           robot.logger.info "opened!!!"
           azureOpts =
             webSiteSlot: 'pull+' + githubPayload.number
+            webSiteDeplymentId: 'pull+' + githubPayload.number
           deployOpts =
             repoUrl: githubPayload.pull_request.head.repo.git_url
             branch: 'master'
