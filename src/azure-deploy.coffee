@@ -14,7 +14,7 @@
 # Author:
 #   Andrew Douglas <andrew.douglas@trurating.com>
 
-#AzureDeploy = require('../lib/azure-deploy')
+AzureDeploy = require('../lib/azure-deploy')
 _ = require('underscore')
 
 azureOpts =
