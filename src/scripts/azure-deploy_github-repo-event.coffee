@@ -27,5 +27,5 @@ module.exports = (robot) ->
       switch githubPayload.action
         when "opened"
           robot.logger.info "opened!!!"
-          #azureDeploy.deployNewSiteSlot msg, azureOpts, deployOpts, (err, result) ->
-          #  robot.send {room: query.room}, message if message
+          azureDeploy.deployNewSiteSlot msg, azureOpts, deployOpts, (err, result) ->
+            robot.send {room: deploymentStatusRoom}, "done"
