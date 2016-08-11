@@ -85,9 +85,9 @@ class AzureDeploy
       if err?
           cb(err)
           return
-      client = new webSiteManagementClient(credentials, azureSubscriptionId)
-      optionsopt = null
-      deployopt = null
+      # client = new webSiteManagementClient(credentials, azureSubscriptionId)
+      # optionsopt = null
+      # deployopt = null
       # client.sites.createDeploymentSlot azureResourceGroupName, azureWebSiteName, azureWebSiteDeplymentId, azureWebSiteSlot, deployopt, optionsopt, (err, result, request, response) ->
       #   if err?
       #      cb(err)
