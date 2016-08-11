@@ -15,7 +15,7 @@
 #   Andrew Douglas <andrew.douglas@trurating.com>
 
 msRestAzure = require("ms-rest-azure")
-# webSiteManagementClient = require('azure-arm-website')
+webSiteManagementClient = require('azure-arm-website')
 # _ = require('underscore')
 #
 # class AzureDeployError extends Error
