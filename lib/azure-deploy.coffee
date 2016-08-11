@@ -88,10 +88,10 @@ class AzureDeploy
       client = new webSiteManagementClient(credentials, azureSubscriptionId)
       optionsopt = null
       deployopt = null
-      client.sites.createDeploymentSlot azureResourceGroupName, azureWebSiteName, azureWebSiteDeplymentId, azureWebSiteSlot, deployopt, optionsopt, (err, result, request, response) ->
-        if err?
-           cb(err)
-           return
+      # client.sites.createDeploymentSlot azureResourceGroupName, azureWebSiteName, azureWebSiteDeplymentId, azureWebSiteSlot, deployopt, optionsopt, (err, result, request, response) ->
+      #   if err?
+      #      cb(err)
+      #      return
   #       siteSourceControl =
   #         repoUrl: deployRepoUrl
   #         branch: deployBranch
