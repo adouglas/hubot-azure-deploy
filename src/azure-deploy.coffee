@@ -14,7 +14,7 @@
 # Author:
 #   Andrew Douglas <andrew.douglas@trurating.com>
 
-AzureDeploy = require('../lib/azure-deploy')
+#AzureDeploy = require('../lib/azure-deploy')
 _ = require('underscore')
 
 azureOpts =
@@ -31,9 +31,9 @@ deployOpts =
 deployOpts.pagerNoop = false if deployOpts.pagerNoop is "false" or deployOpts.pagerNoop is "off"
 
 module.exports = (robot) ->
-  AzureDeploy = new AzureDeploy robot, process.env
+#  AzureDeploy = new AzureDeploy robot, process.env
 
   deployNewSiteSlot: (msg, azureOpts, deployOpts, cb) ->
     azureOpts = _.extend(@azureOpts, azureOpts)
     deployOpts = _.extend(@deployOpts, deployOpts)
-    AzureDeploy.deployNewSiteSlot(msg, azureOpts, deployOpts, cb)
+#    AzureDeploy.deployNewSiteSlot(msg, azureOpts, deployOpts, cb)
