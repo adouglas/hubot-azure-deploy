@@ -24,7 +24,7 @@ module.exports = (robot) ->
     @robot.logger.error "event!!!"
     githubPayload = repo_event.payload
     robot.send {room: deploymentStatusRoom}, 'github-repo-event'
-    if repo_event.eventType ===  "pull_request"
+    if repo_event.eventType is "pull_request"
       switch githubPayload.action
         when "opened"
           @robot.logger.info "opened!!!"
