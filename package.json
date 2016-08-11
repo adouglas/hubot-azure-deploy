@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "author": "Andrew Douglas <andrew.douglas@trurating.com>",
   "license": "MIT",
+  "private": true,
   "keywords": "hubot, hubot-scripts",
   "repository": {
     "type": "git",
