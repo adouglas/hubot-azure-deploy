@@ -36,4 +36,4 @@ module.exports = (robot) ->
   deployNewSiteSlot: (msg, azureOpts, deployOpts, cb) ->
     azureOpts = _.extend(@azureOpts, azureOpts)
     deployOpts = _.extend(@deployOpts, deployOpts)
-#    AzureDeploy.deployNewSiteSlot(msg, azureOpts, deployOpts, cb)
+    AzureDeploy.deployNewSiteSlot(msg, azureOpts, deployOpts, cb)

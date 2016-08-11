@@ -69,12 +69,14 @@ class AzureDeploy
       deployBranch = deployOpts.branch
       deployNoop = deployOpts.noop
 
+      @robot.send {room: 'hubot-status'}, 'here!!'
+
       siteConfig = {}
       if deployOpts.hasOwnProperty('targetBranch')
         siteConfig.appSettings =
           TARGET_BRANCH: deployOpts.targetBranch
           REQUIRES_GIT_OVERRIDE: true
-  # 
+  #
   #     @_newSiteSlot msg, azureClientId, azureSecret, azureDomain, azureResourceGroupName, azureWebSiteDeplymentId, azureWebSiteName, azureWebSiteSlot, deployRepoUrl, deployBranch, deployNoop, siteConfig, cb
   #
   #
