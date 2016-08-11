@@ -14,7 +14,7 @@
 # Author:
 #   Andrew Douglas <andrew.douglas@trurating.com>
 
-azureDeploy = require('../azure-deploy')
+#azureDeploy = require('../azure-deploy')
 
 deploymentStatusRoom = process.env.HUBOT_AZURE_DEPLOY_STATUS_ROOM
 
