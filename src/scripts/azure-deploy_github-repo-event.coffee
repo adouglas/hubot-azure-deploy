@@ -19,14 +19,14 @@
 deploymentStatusRoom = process.env.HUBOT_AZURE_DEPLOY_STATUS_ROOM
 
 module.exports = (robot) ->
-  @robot.logger.error "here!!!"
-  @robot.on "github-repo-event", (repo_event) =>
-    @robot.logger.error "event!!!"
+  robot.logger.error "here!!!"
+  robot.on "github-repo-event", (repo_event) =>
+    robot.logger.error "event!!!"
     githubPayload = repo_event.payload
     robot.send {room: deploymentStatusRoom}, 'github-repo-event'
     if repo_event.eventType is "pull_request"
       switch githubPayload.action
         when "opened"
-          @robot.logger.info "opened!!!"
+          robot.logger.info "opened!!!"
           #azureDeploy.deployNewSiteSlot msg, azureOpts, deployOpts, (err, result) ->
           #  robot.send {room: query.room}, message if message
