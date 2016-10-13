@@ -32,7 +32,7 @@ class HubotAzureDeploy
       branch: process.env.HUBOT_AZURE_DEPLOY_BRANCH
       noop: process.env.HUBOT_AZURE_DEPLOY_NOOP
 
-    @deployOpts.pagerNoop = false if deployOpts.pagerNoop is "false" or deployOpts.pagerNoop is "off"
+    @deployOpts.pagerNoop = false if @deployOpts.pagerNoop is "false" or @deployOpts.pagerNoop is "off"
 
     @azureDeploy = new AzureDeploy @robot, process.env
 
