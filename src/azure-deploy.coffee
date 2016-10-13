@@ -30,7 +30,7 @@ deployOpts =
 
 deployOpts.pagerNoop = false if deployOpts.pagerNoop is "false" or deployOpts.pagerNoop is "off"
 
-module.exports = (robot) ->
+module.exports =
   AzureDeploy = new AzureDeploy robot, process.env
 
   deployNewSiteSlot: (azureOpts, deployOpts, cb) ->
