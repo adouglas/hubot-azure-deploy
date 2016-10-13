@@ -34,5 +34,6 @@ module.exports = (robot) ->
             repoUrl: githubPayload.pull_request.head.repo.git_url
             branch: 'master'
             targetBranch: 'refs/pull/' + githubPayload.number + '/merge'
+          robot.send {room: deploymentStatusRoom}, "Creating new QA site: " + azureOpts.webSiteSlot + " repo " + githubPayload.pull_request.head.repo.git_url + " : " + 'refs/pull/' + githubPayload.number + '/merge'
           azureDeploy.deployNewSiteSlot msg, azureOpts, deployOpts, (err, result) ->
             robot.send {room: deploymentStatusRoom}, "done"
