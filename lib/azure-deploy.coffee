@@ -85,42 +85,42 @@ class AzureDeploy
       if err?
           cb(err)
           return
-      # client = new webSiteManagementClient(credentials, azureSubscriptionId)
-      # optionsopt = null
-      # deployopt = null
-      # client.sites.createDeploymentSlot azureResourceGroupName, azureWebSiteName, azureWebSiteDeplymentId, azureWebSiteSlot, deployopt, optionsopt, (err, result, request, response) ->
-      #   if err?
-      #      cb(err)
-      #      return
-  #       siteSourceControl =
-  #         repoUrl: deployRepoUrl
-  #         branch: deployBranch
-  #         isManualIntegration: true
-  #         deploymentRollbackEnabled: false
-  #         isMercurial: false
-  #       optionsopt = null
-  #       client.sites.updateSiteSourceControlSlot azureResourceGroupName, azureWebSiteName, siteSourceControl, azureWebSiteSlot, optionsopt, (err, result, request, response) ->
-  #         if err?
-  #           cb(err)
-  #           return
-  #         if Object.keys(siteConfig).length == 0
-  #           cb err, result
-  #         else
-  #           client.sites.getSiteConfigSlot azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) ->
-  #             result.appSettings = _.extend(result.appSettings, siteConfig.appSettings)
-  #             client.sites.createOrUpdateSiteConfigSlot azureResourceGroupName, azureWebSiteName, result, azureWebSiteSlot, optionsopt, (err, result, request, response) ->
-  #               if err?
-  #                 cb(err)
-  #                 return
-  #               client.sites.restartSiteSlot azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) ->
-  #                 if err?
-  #                   cb(err)
-  #                   return
-  #                 client.sites.syncSiteRepository azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) ->
-  #                   if err?
-  #                     cb(err)
-  #                     return
-  #                   cb err, result
-  #                   return true
+      client = new webSiteManagementClient(credentials, azureSubscriptionId)
+      optionsopt = null
+      deployopt = null
+      client.sites.createDeploymentSlot azureResourceGroupName, azureWebSiteName, azureWebSiteDeplymentId, azureWebSiteSlot, deployopt, optionsopt, (err, result, request, response) ->
+        if err?
+           cb(err)
+           return
+        siteSourceControl =
+          repoUrl: deployRepoUrl
+          branch: deployBranch
+          isManualIntegration: true
+          deploymentRollbackEnabled: false
+          isMercurial: false
+        optionsopt = null
+        client.sites.updateSiteSourceControlSlot azureResourceGroupName, azureWebSiteName, siteSourceControl, azureWebSiteSlot, optionsopt, (err, result, request, response) ->
+          if err?
+            cb(err)
+            return
+          if Object.keys(siteConfig).length == 0
+            cb err, result
+          else
+            client.sites.getSiteConfigSlot azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) ->
+              result.appSettings = _.extend(result.appSettings, siteConfig.appSettings)
+              client.sites.createOrUpdateSiteConfigSlot azureResourceGroupName, azureWebSiteName, result, azureWebSiteSlot, optionsopt, (err, result, request, response) ->
+                if err?
+                  cb(err)
+                  return
+                client.sites.restartSiteSlot azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) ->
+                  if err?
+                    cb(err)
+                    return
+                  client.sites.syncSiteRepository azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) ->
+                    if err?
+                      cb(err)
+                      return
+                    cb err, result
+                    return true
 
 module.exports = AzureDeploy

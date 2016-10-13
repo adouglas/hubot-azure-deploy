@@ -20,8 +20,8 @@ _ = require('underscore')
 azureOpts =
   resourceGroupName: process.env.HUBOT_AZURE_DEPLOY_RESOURCEGROUPNAME # rg-analytics
   webSiteDeplymentId: process.env.HUBOT_AZURE_DEPLOY_WEBSITE_DEPLYMENT_ID # /subscriptions/84cf6300-fc86-45aa-9bcb-f090602b7f5f/resourceGroups/rg-analytics/providers/Microsoft.Web/sites/tru-analytics-qa
-  webSiteName: process.env.HUBOT_AZURE_DEPLOY_WEBSITE_NAME # tru-analytics-qa
-  webSiteSlot: process.env.HUBOT_AZURE_DEPLOY_WEBSITE_SLOT
+  webSiteName: process.env.HUBOT_AZURE_DEPLOY_WEBSITE_NAME # tru-qa-analytics
+  webSiteSlot: process.env.HUBOT_AZURE_DEPLOY_WEBSITE_SLOT 
 
 deployOpts =
   repoUrl: process.env.HUBOT_AZURE_DEPLOY_REPO_URL
