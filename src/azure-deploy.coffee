@@ -21,7 +21,7 @@ azureOpts =
   resourceGroupName: process.env.HUBOT_AZURE_DEPLOY_RESOURCEGROUPNAME # rg-analytics
   webSiteDeplymentId: process.env.HUBOT_AZURE_DEPLOY_WEBSITE_DEPLYMENT_ID # /subscriptions/84cf6300-fc86-45aa-9bcb-f090602b7f5f/resourceGroups/rg-analytics/providers/Microsoft.Web/sites/tru-analytics-qa
   webSiteName: process.env.HUBOT_AZURE_DEPLOY_WEBSITE_NAME # tru-qa-analytics
-  webSiteSlot: process.env.HUBOT_AZURE_DEPLOY_WEBSITE_SLOT 
+  webSiteSlot: process.env.HUBOT_AZURE_DEPLOY_WEBSITE_SLOT
 
 deployOpts =
   repoUrl: process.env.HUBOT_AZURE_DEPLOY_REPO_URL
@@ -33,7 +33,7 @@ deployOpts.pagerNoop = false if deployOpts.pagerNoop is "false" or deployOpts.pa
 module.exports = (robot) ->
   AzureDeploy = new AzureDeploy robot, process.env
 
-  deployNewSiteSlot: (msg, azureOpts, deployOpts, cb) ->
+  deployNewSiteSlot: (azureOpts, deployOpts, cb) ->
     azureOpts = _.extend(@azureOpts, azureOpts)
     deployOpts = _.extend(@deployOpts, deployOpts)
-    AzureDeploy.deployNewSiteSlot(msg, azureOpts, deployOpts, cb)
+    AzureDeploy.deployNewSiteSlot(azureOpts, deployOpts, cb)
