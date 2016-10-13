@@ -20,7 +20,7 @@ _ = require('underscore')
 
 class HubotAzureDeploy
 
-  constructor: (robot, env) ->
+  constructor: (@robot, env) ->
     @azureOpts =
       resourceGroupName: process.env.HUBOT_AZURE_DEPLOY_RESOURCEGROUPNAME # rg-analytics
       webSiteDeplymentId: process.env.HUBOT_AZURE_DEPLOY_WEBSITE_DEPLYMENT_ID # /subscriptions/84cf6300-fc86-45aa-9bcb-f090602b7f5f/resourceGroups/rg-analytics/providers/Microsoft.Web/sites/tru-analytics-qa
@@ -34,7 +34,8 @@ class HubotAzureDeploy
 
     @deployOpts.pagerNoop = false if deployOpts.pagerNoop is "false" or deployOpts.pagerNoop is "off"
 
-    @azureDeploy = new AzureDeploy robot, process.env
+    @azureDeploy = new AzureDeploy @robot, process.env
+
 
   deployNewSiteSlot: (azureOpts, deployOpts, cb) ->
     azureOpts = _.extend(@azureOpts, azureOpts)

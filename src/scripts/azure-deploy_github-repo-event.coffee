@@ -14,7 +14,7 @@
 # Author:
 #   Andrew Douglas <andrew.douglas@trurating.com>
 
-azureDeploy = require('../azure-deploy')
+AzureDeploy = require('../azure-deploy')
 
 deploymentStatusRoom = process.env.HUBOT_AZURE_DEPLOY_STATUS_ROOM
 
@@ -36,6 +36,7 @@ module.exports = (robot) ->
             targetBranch: 'refs/pull/' + githubPayload.number + '/merge'
             deploymentStatusRoom: deploymentStatusRoom
           robot.send {room: deploymentStatusRoom}, "Creating new QA site: " + azureOpts.webSiteSlot + " repo " + githubPayload.pull_request.head.repo.git_url + " : " + 'refs/pull/' + githubPayload.number + '/merge'
+          azureDeploy = new AzureDeploy robot process.env
           azureDeploy.deployNewSiteSlot azureOpts, deployOpts, (err, result) ->
             if err?
               robot.send {room: deploymentStatusRoom}, err
