@@ -94,7 +94,7 @@ class AzureDeploy
       @robot.send {room: @deploymentStatusRoom}, 'Logged in to Azure (REST)'
       client = new webSiteManagementClient(credentials, @azureSubscriptionId)
       optionsopt = null
-      deployopt = null
+      deployopt = {location: 'North Europe'}
       @robot.send {room: @deploymentStatusRoom}, 'Creating new deployment slot'
       client.sites.createDeploymentSlot azureResourceGroupName, azureWebSiteName, azureWebSiteDeplymentId, azureWebSiteSlot, deployopt, optionsopt, (err, result, request, response) =>
         if err?
