@@ -22,8 +22,7 @@ _ = require('underscore')
 #
 class AzureDeploy
 
-  constructor: (robot, env) ->
-    @robot = robot
+  constructor: (@robot, env) ->
     @env = env
     @azureClientId = env.HUBOT_AZURE_DEPLOY_CLIENT_ID
     @azureDomain = env.HUBOT_AZURE_DEPLOY_DOMAIN
@@ -85,8 +84,12 @@ class AzureDeploy
     @robot.send {room: @deploymentStatusRoom}, 'Logging in to Azure (REST)'
     msRestAzure.loginWithServicePrincipalSecret azureClientId, azureSecret, azureDomain, (err, credentials) ->
       if err?
+          @robot.send {room: @deploymentStatusRoom}, 'Error Logging in to Azure (REST)'
+          @robot.logger.error 'Error Logging in to Azure (REST)'
+          @robot.logger.error err
           cb(err)
           return
+      @robot.logger.info 'Logged in to Azure (REST)'
       @robot.send {room: @deploymentStatusRoom}, 'Logged in to Azure (REST)'
       client = new webSiteManagementClient(credentials, azureSubscriptionId)
       optionsopt = null
