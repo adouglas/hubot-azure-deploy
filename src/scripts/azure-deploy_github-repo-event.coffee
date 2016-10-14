@@ -39,7 +39,8 @@ module.exports = (robot) ->
           azureDeploy = new AzureDeploy robot, process.env
           azureDeploy.deployNewSiteSlot azureOpts, deployOpts, (err, result) ->
             if err?
-              robot.logger.error JSON.stringify(err)
-              robot.logger.error JSON.stringify(result)
+              if err.message?
+                robot.logger.error err.message
+              robot.logger.error 'An undocumented error occurred'
               return
             robot.send {room: deploymentStatusRoom}, "done"
