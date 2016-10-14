@@ -61,6 +61,7 @@ class AzureDeploy
       azureClientId = @azureClientId
       azureSecret = @azureSecret
       azureDomain = @azureDomain
+      azureSubscriptionId = @azureSubscriptionId
 
       azureResourceGroupName = azureOpts.resourceGroupName
       azureWebSiteDeplymentId = azureOpts.webSiteDeplymentId
@@ -77,10 +78,10 @@ class AzureDeploy
           TARGET_BRANCH: deployOpts.targetBranch
           REQUIRES_GIT_OVERRIDE: true
 
-      @_newSiteSlot azureClientId, azureSecret, azureDomain, azureResourceGroupName, azureWebSiteDeplymentId, azureWebSiteName, azureWebSiteSlot, deployRepoUrl, deployBranch, deployNoop, siteConfig, cb
+      @_newSiteSlot azureClientId, azureSecret, azureDomain, azureSubscriptionId, azureResourceGroupName, azureWebSiteDeplymentId, azureWebSiteName, azureWebSiteSlot, deployRepoUrl, deployBranch, deployNoop, siteConfig, cb
 
 
-  _newSiteSlot: (azureClientId, azureSecret, azureDomain, azureResourceGroupName, azureWebSiteDeplymentId, azureWebSiteName, azureWebSiteSlot, deployRepoUrl, deployBranch, deployNoop, siteConfig, cb) ->
+  _newSiteSlot: (azureClientId, azureSecret, azureDomain, azureSubscriptionId, azureResourceGroupName, azureWebSiteDeplymentId, azureWebSiteName, azureWebSiteSlot, deployRepoUrl, deployBranch, deployNoop, siteConfig, cb) ->
     @robot.send {room: @deploymentStatusRoom}, 'Logging in to Azure (REST)'
     msRestAzure.loginWithServicePrincipalSecret azureClientId, azureSecret, azureDomain, (err, credentials) =>
       if err?
@@ -91,7 +92,7 @@ class AzureDeploy
           return
       @robot.logger.info 'Logged in to Azure (REST)'
       @robot.send {room: @deploymentStatusRoom}, 'Logged in to Azure (REST)'
-      client = new webSiteManagementClient(credentials, azureSubscriptionId)
+      client = new webSiteManagementClient(credentials, @azureSubscriptionId)
       optionsopt = null
       deployopt = null
       @robot.send {room: @deploymentStatusRoom}, 'Creating new deployment slot'
