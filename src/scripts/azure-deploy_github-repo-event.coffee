@@ -39,6 +39,6 @@ module.exports = (robot) ->
           azureDeploy = new AzureDeploy robot, process.env
           azureDeploy.deployNewSiteSlot azureOpts, deployOpts, (err, result) ->
             if err?
-              robot.send {room: deploymentStatusRoom}, err
+              robot.logger.error JSON.stringify(err)
               return
             robot.send {room: deploymentStatusRoom}, "done"
