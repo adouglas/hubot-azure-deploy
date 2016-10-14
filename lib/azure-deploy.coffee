@@ -82,7 +82,7 @@ class AzureDeploy
 
   _newSiteSlot: (azureClientId, azureSecret, azureDomain, azureResourceGroupName, azureWebSiteDeplymentId, azureWebSiteName, azureWebSiteSlot, deployRepoUrl, deployBranch, deployNoop, siteConfig, cb) ->
     @robot.send {room: @deploymentStatusRoom}, 'Logging in to Azure (REST)'
-    msRestAzure.loginWithServicePrincipalSecret azureClientId, azureSecret, azureDomain, (err, credentials) ->
+    msRestAzure.loginWithServicePrincipalSecret azureClientId, azureSecret, azureDomain, (err, credentials) =>
       if err?
           @robot.send {room: @deploymentStatusRoom}, 'Error Logging in to Azure (REST)'
           @robot.logger.error 'Error Logging in to Azure (REST)'
@@ -95,7 +95,7 @@ class AzureDeploy
       optionsopt = null
       deployopt = null
       @robot.send {room: @deploymentStatusRoom}, 'Creating new deployment slot'
-      client.sites.createDeploymentSlot azureResourceGroupName, azureWebSiteName, azureWebSiteDeplymentId, azureWebSiteSlot, deployopt, optionsopt, (err, result, request, response) ->
+      client.sites.createDeploymentSlot azureResourceGroupName, azureWebSiteName, azureWebSiteDeplymentId, azureWebSiteSlot, deployopt, optionsopt, (err, result, request, response) =>
         if err?
            cb(err)
            return
@@ -107,7 +107,7 @@ class AzureDeploy
           deploymentRollbackEnabled: false
           isMercurial: false
         optionsopt = null
-        client.sites.updateSiteSourceControlSlot azureResourceGroupName, azureWebSiteName, siteSourceControl, azureWebSiteSlot, optionsopt, (err, result, request, response) ->
+        client.sites.updateSiteSourceControlSlot azureResourceGroupName, azureWebSiteName, siteSourceControl, azureWebSiteSlot, optionsopt, (err, result, request, response) =>
           if err?
             cb(err)
             return
@@ -115,20 +115,20 @@ class AzureDeploy
           if Object.keys(siteConfig).length == 0
             cb err, result
           else
-            client.sites.getSiteConfigSlot azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) ->
+            client.sites.getSiteConfigSlot azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) =>
               @robot.send {room: @deploymentStatusRoom}, 'Deployment slot config retrieved'
               result.appSettings = _.extend(result.appSettings, siteConfig.appSettings)
-              client.sites.createOrUpdateSiteConfigSlot azureResourceGroupName, azureWebSiteName, result, azureWebSiteSlot, optionsopt, (err, result, request, response) ->
+              client.sites.createOrUpdateSiteConfigSlot azureResourceGroupName, azureWebSiteName, result, azureWebSiteSlot, optionsopt, (err, result, request, response) =>
                 if err?
                   cb(err)
                   return
                 @robot.send {room: @deploymentStatusRoom}, 'Deployment slot config updated'
-                client.sites.restartSiteSlot azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) ->
+                client.sites.restartSiteSlot azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) =>
                   if err?
                     cb(err)
                     return
                   @robot.send {room: @deploymentStatusRoom}, 'Deployment slot restarted'
-                  client.sites.syncSiteRepository azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) ->
+                  client.sites.syncSiteRepository azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) =>
                     if err?
                       cb(err)
                       return
