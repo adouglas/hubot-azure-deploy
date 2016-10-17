@@ -92,8 +92,8 @@ class AzureDeploy
           return
       @robot.logger.info 'Logged in to Azure (REST)'
       client = new webSiteManagementClient(credentials, @azureSubscriptionId)
-      siteEnvelope = {}
-        # location: 'North Europe'
+      siteEnvelope =
+        location: 'North Europe'
         # cloningInfo:
         #   overwrite: false
         #   cloneCustomHostNames: false
