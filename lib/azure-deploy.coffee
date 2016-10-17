@@ -94,12 +94,13 @@ class AzureDeploy
       @robot.logger.info 'Logged in to Azure (REST)'
       client = new webSiteManagementClient(credentials, @azureSubscriptionId)
       siteEnvelope =
+        location: 'North Europe'
         cloningInfo =
           overwrite: false
           cloneCustomHostNames: false
           cloneSourceControl: true
           sourceWebAppId: "/subscriptions/#{@azureSubscriptionId}/resourceGroups/#{azureResourceGroupName}/providers/Microsoft.Web/sites/#{azureWebSiteName}/slots/#{webSiteSlotTemplate}"
-        location: 'North Europe'
+
       @robot.logger.info "Creating new deployment slot (#{azureResourceGroupName}, #{azureWebSiteName}, #{azureWebSiteSlot})"
       client.sites.createOrUpdateSiteSlot azureResourceGroupName, azureWebSiteName, siteEnvelope, azureWebSiteSlot, (err, result, request, response) =>
         if err?
