@@ -95,12 +95,11 @@ class AzureDeploy
       siteEnvelope =
         location: 'North Europe'
         enabled: true
-        # siteName: azureWebSiteSlot
-        # cloningInfo:
-        #   overwrite: false
-        #   cloneCustomHostNames: false
-        #   cloneSourceControl: true
-        #   sourceWebAppId: "/subscriptions/#{@azureSubscriptionId}/resourceGroups/#{azureResourceGroupName}/providers/Microsoft.Web/sites/#{azureWebSiteName}/slots/#{webSiteSlotTemplate}"
+        cloningInfo:
+          overwrite: false
+          cloneCustomHostNames: false
+          cloneSourceControl: true
+          sourceWebAppId: "/subscriptions/#{@azureSubscriptionId}/resourceGroups/#{azureResourceGroupName}/providers/Microsoft.Web/sites/#{azureWebSiteName}/slots/#{webSiteSlotTemplate}"
 
       @robot.logger.info "Creating new deployment slot (#{azureResourceGroupName}, #{azureWebSiteName}, #{azureWebSiteSlot})"
       client.sites.createOrUpdateSiteSlot azureResourceGroupName, azureWebSiteName, siteEnvelope, azureWebSiteSlot, null, (err, result, request, response) =>
