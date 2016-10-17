@@ -54,9 +54,10 @@ class AzureDeploy
     @robot.logger.error 'Error: azureOpts.webSiteDeplymentId is not specified' if not azureOpts.webSiteDeplymentId
     @robot.logger.error 'Error: azureOpts.webSiteName is not specified' if not azureOpts.webSiteName
     @robot.logger.error 'Error: azureOpts.webSiteSlot is not specified' if not azureOpts.webSiteSlot
+    @robot.logger.error 'Error: azureOpts.webSiteSlotTemplate is not specified' if not azureOpts.webSiteSlotTemplate
     @robot.logger.error 'Error: deployOpts.repoUrl is not specified' if not deployOpts.repoUrl
     @robot.logger.error 'Error: deployOpts.branch is not specified' if not deployOpts.branch
-    return false unless (azureOpts.resourceGroupName and azureOpts.webSiteDeplymentId and azureOpts.webSiteName and azureOpts.webSiteSlot and deployOpts.repoUrl and deployOpts.branch)
+    return false unless (azureOpts.resourceGroupName and azureOpts.webSiteDeplymentId and azureOpts.webSiteName and azureOpts.webSiteSlot and azureOpts.webSiteSlotTemplate and deployOpts.repoUrl and deployOpts.branch)
     if @ready() is true
       azureClientId = @azureClientId
       azureSecret = @azureSecret
@@ -67,6 +68,7 @@ class AzureDeploy
       azureWebSiteDeplymentId = azureOpts.webSiteDeplymentId
       azureWebSiteName = azureOpts.webSiteName
       azureWebSiteSlot = azureOpts.webSiteSlot
+      webSiteSlotTemplate = azureOpts.webSiteSlotTemplate
 
       deployRepoUrl = deployOpts.repoUrl
       deployBranch = deployOpts.branch
@@ -91,53 +93,33 @@ class AzureDeploy
           return
       @robot.logger.info 'Logged in to Azure (REST)'
       client = new webSiteManagementClient(credentials, @azureSubscriptionId)
-      optionsopt = null
-      deployopt = {location: 'North Europe'}
-      @robot.logger.info "Creating new deployment slot (#{azureResourceGroupName}, #{azureWebSiteName}, #{azureWebSiteDeplymentId}, #{azureWebSiteSlot})"
-      client.sites.createDeploymentSlot azureResourceGroupName, azureWebSiteName, azureWebSiteDeplymentId, azureWebSiteSlot, deployopt, optionsopt, (err, result, request, response) =>
+      siteEnvelope =
+        cloningInfo =
+          overwrite: false
+          cloneCustomHostNames: false
+          cloneSourceControl: true
+          sourceWebAppId: "/subscriptions/#{@azureSubscriptionId}/resourceGroups/#{azureResourceGroupName}/providers/Microsoft.Web/sites/#{azureWebSiteName}/slots/#{webSiteSlotTemplate}"
+        location: 'North Europe'
+      @robot.logger.info "Creating new deployment slot (#{azureResourceGroupName}, #{azureWebSiteName}, #{azureWebSiteSlot})"
+      client.sites.createOrUpdateSiteSlot azureResourceGroupName, azureWebSiteName, siteEnvelope, azureWebSiteSlot, (err, result, request, response) =>
         if err?
            cb(err)
            return
         @robot.logger.info 'New deployment slot created (REST)'
-        siteSourceControl =
-          repoUrl: deployRepoUrl
-          branch: deployBranch
-          isManualIntegration: true
-          deploymentRollbackEnabled: false
-          isMercurial: false
-        optionsopt = null
-        @robot.logger.info "Updating slot SCM (#{azureResourceGroupName}, #{azureWebSiteName}, #{siteSourceControl}, #{azureWebSiteSlot.repoUrl}, #{azureWebSiteSlot.branch})"
-        client.sites.updateSiteSourceControlSlot azureResourceGroupName, azureWebSiteName, siteSourceControl, azureWebSiteSlot, optionsopt, (err, result, request, response) =>
-          if err?
-            cb(err)
-            return
-          @robot.logger.info 'Deployment slot SCM updated'
-          if Object.keys(siteConfig).length == 0
-            cb err, result
-          else
-            @robot.logger.info "Retrieving slot config (#{azureResourceGroupName}, #{azureWebSiteName}, #{azureWebSiteSlot})"
-            client.sites.getSiteConfigSlot azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) =>
-              @robot.logger.info 'Deployment slot config retrieved'
-              result.appSettings = _.extend(result.appSettings, siteConfig.appSettings)
-              @robot.logger.info 'Updating slot settings'
-              client.sites.createOrUpdateSiteConfigSlot azureResourceGroupName, azureWebSiteName, result, azureWebSiteSlot, optionsopt, (err, result, request, response) =>
-                if err?
-                  cb(err)
-                  return
-                @robot.logger.info 'Deployment slot config updated'
-                @robot.logger.info 'Restarting slot'
-                client.sites.restartSiteSlot azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) =>
-                  if err?
-                    cb(err)
-                    return
-                  @robot.logger.info 'Deployment slot restarted'
-                  @robot.logger.info 'Triggering a slot SCM sync'
-                  client.sites.syncSiteRepository azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) =>
-                    if err?
-                      cb(err)
-                      return
-                    @robot.logger.info 'Deployment slot repo synced'
-                    cb err, result
-                    return true
+        cb err, result
+        return true
+                # client.sites.restartSiteSlot azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) =>
+                #   if err?
+                #     cb(err)
+                #     return
+                #   @robot.logger.info 'Deployment slot restarted'
+                #   @robot.logger.info 'Triggering a slot SCM sync'
+                #   client.sites.syncSiteRepository azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) =>
+                #     if err?
+                #       cb(err)
+                #       return
+                #     @robot.logger.info 'Deployment slot repo synced'
+                #     cb err, result
+                #     return true
 
 module.exports = AzureDeploy
