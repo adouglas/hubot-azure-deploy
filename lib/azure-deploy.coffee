@@ -65,7 +65,6 @@ class AzureDeploy
       azureSubscriptionId = @azureSubscriptionId
 
       azureResourceGroupName = azureOpts.resourceGroupName
-      azureWebSiteDeplymentId = azureOpts.webSiteDeplymentId
       azureWebSiteName = azureOpts.webSiteName
       azureWebSiteSlot = azureOpts.webSiteSlot
       webSiteSlotTemplate = azureOpts.webSiteSlotTemplate
@@ -80,10 +79,10 @@ class AzureDeploy
           TARGET_BRANCH: deployOpts.targetBranch
           REQUIRES_GIT_OVERRIDE: true
 
-      @_newSiteSlot azureClientId, azureSecret, azureDomain, azureSubscriptionId, azureResourceGroupName, azureWebSiteDeplymentId, azureWebSiteName, azureWebSiteSlot, deployRepoUrl, deployBranch, deployNoop, siteConfig, cb
+      @_newSiteSlot azureClientId, azureSecret, azureDomain, azureSubscriptionId, azureResourceGroupName, webSiteSlotTemplate, azureWebSiteName, azureWebSiteSlot, deployRepoUrl, deployBranch, deployNoop, siteConfig, cb
 
 
-  _newSiteSlot: (azureClientId, azureSecret, azureDomain, azureSubscriptionId, azureResourceGroupName, azureWebSiteDeplymentId, azureWebSiteName, azureWebSiteSlot, deployRepoUrl, deployBranch, deployNoop, siteConfig, cb) ->
+  _newSiteSlot: (azureClientId, azureSecret, azureDomain, azureSubscriptionId, azureResourceGroupName, webSiteSlotTemplate, azureWebSiteName, azureWebSiteSlot, deployRepoUrl, deployBranch, deployNoop, siteConfig, cb) ->
     @robot.logger.info 'Logging in to Azure (REST)'
     msRestAzure.loginWithServicePrincipalSecret azureClientId, azureSecret, azureDomain, (err, credentials) =>
       if err?
