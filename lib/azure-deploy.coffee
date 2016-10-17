@@ -94,7 +94,7 @@ class AzureDeploy
       client = new webSiteManagementClient(credentials, @azureSubscriptionId)
       siteEnvelope =
         location: 'North Europe'
-        serverFarmId: 'Default1'
+        siteName: azureWebSiteSlot
         # cloningInfo:
         #   overwrite: false
         #   cloneCustomHostNames: false

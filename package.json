@@ -14,10 +14,10 @@
     "url": "https://github.com/hubot-scripts/hubot-azure-deploy/issues"
   },
   "dependencies": {
-    "azure": "1.1.1-preview",
-    "azure-common": "^0.9.17",
-    "ms-rest": "^1.15.0",
-    "ms-rest-azure": "^1.15.0",
+    "azure": "1.2.0-preview",
+    "azure-common": "0.9.18",
+    "ms-rest": "1.15.2",
+    "ms-rest-azure": "1.15.2",
     "underscore": "^1.8.3"
   },
   "peerDependencies": {
