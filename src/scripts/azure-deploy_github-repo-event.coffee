@@ -26,8 +26,7 @@ module.exports = (robot) ->
       switch githubPayload.action
         when "opened"
           azureOpts =
-            webSiteSlot: 'pull_' + githubPayload.number
-            webSiteDeplymentId: 'pull_' + githubPayload.number
+            webSiteSlot: 'pull-' + githubPayload.number
           deployOpts =
             repoUrl: githubPayload.pull_request.head.repo.git_url
             branch: 'master'
