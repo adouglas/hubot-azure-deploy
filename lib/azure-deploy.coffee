@@ -111,7 +111,14 @@ class AzureDeploy
           if err?
              cb(err)
              return
+          console.log 'getSiteConfigSlot: Success'
+          console.log 'request'
+          console.log request
+          console.log 'response'
+          console.log response
+          console.log 'result'
           console.log JSON.toString result
+          console.log result
           cb err, result
           return true
           # gitSetup = [
