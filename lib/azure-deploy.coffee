@@ -96,9 +96,9 @@ class AzureDeploy
         location: 'North Europe'
         enabled: true
         cloningInfo:
-          overwrite: false
-          cloneCustomHostNames: false
-          cloneSourceControl: true
+          # overwrite: false
+          # cloneCustomHostNames: false
+          # cloneSourceControl: true
           sourceWebAppId: "/subscriptions/#{@azureSubscriptionId}/resourceGroups/#{azureResourceGroupName}/providers/Microsoft.Web/sites/#{azureWebSiteName}/slots/#{webSiteSlotTemplate}"
 
       @robot.logger.info "Creating new deployment slot (#{azureResourceGroupName}, #{azureWebSiteName}, #{webSiteSlotTemplate}, #{azureWebSiteSlot})"
