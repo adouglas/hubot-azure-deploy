@@ -95,11 +95,11 @@ class AzureDeploy
       siteEnvelope =
         location: 'North Europe'
         enabled: true
-        cloningInfo:
+        # cloningInfo:
           # overwrite: false
           # cloneCustomHostNames: false
           # cloneSourceControl: true
-          sourceWebAppId: "/subscriptions/#{@azureSubscriptionId}/resourceGroups/#{azureResourceGroupName}/providers/Microsoft.Web/sites/#{azureWebSiteName}/slots/#{webSiteSlotTemplate}"
+          # sourceWebAppId: "/subscriptions/#{@azureSubscriptionId}/resourceGroups/#{azureResourceGroupName}/providers/Microsoft.Web/sites/#{azureWebSiteName}/slots/#{webSiteSlotTemplate}"
 
       @robot.logger.info "Creating new deployment slot (#{azureResourceGroupName}, #{azureWebSiteName}, #{webSiteSlotTemplate}, #{azureWebSiteSlot})"
       client.sites.createOrUpdateSiteSlot azureResourceGroupName, azureWebSiteName, siteEnvelope, azureWebSiteSlot, null, (err, result, request, response) =>
@@ -107,8 +107,25 @@ class AzureDeploy
            cb(err)
            return
         @robot.logger.info 'New deployment slot created (REST)'
-        cb err, result
-        return true
+        client.sites.getSiteConfigSlot azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) =>
+          if err?
+             cb(err)
+             return
+          console.log JSON.toString result
+          cb err, result
+          return true
+          # gitSetup = [
+          #   {'TARGET_BRANCH': deployOpts.targetBranch},
+          #   {'REQUIRES_GIT_OVERRIDE': true}
+          # ]
+          # newConfig = _.extend(result.appSettings, gitSetup)
+          # client.sites.updateSiteConfigSlot azureResourceGroupName, azureWebSiteName, newConfig, azureWebSiteSlot, null, (err, result, request, response) =>
+          #    if err?
+          #       cb(err)
+          #       return
+          #   @robot.logger.info 'App settings updated'
+        # cb err, result
+        # return true
                 # client.sites.restartSiteSlot azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) =>
                 #   if err?
                 #     cb(err)
