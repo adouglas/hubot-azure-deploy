@@ -107,11 +107,11 @@ class AzureDeploy
            cb(err)
            return
         @robot.logger.info 'New deployment slot created (REST)'
-        client.sites.getSiteConfigSlot azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) =>
+        client.sites.listSiteAppSettingsSlot azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, null, (err, result, request, response) =>
           if err?
              cb(err)
              return
-          console.log 'getSiteConfigSlot: Success'
+          console.log 'listSiteAppSettingsSlot: Success'
           console.log 'request'
           console.log request
           console.log 'response'
