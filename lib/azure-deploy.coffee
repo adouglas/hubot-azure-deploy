@@ -100,18 +100,24 @@ class AzureDeploy
           # cloneCustomHostNames: false
           # cloneSourceControl: true
           # sourceWebAppId: "/subscriptions/#{@azureSubscriptionId}/resourceGroups/#{azureResourceGroupName}/providers/Microsoft.Web/sites/#{azureWebSiteName}/slots/#{webSiteSlotTemplate}"
-
       @robot.logger.info "Creating new deployment slot (#{azureResourceGroupName}, #{azureWebSiteName}, #{webSiteSlotTemplate}, #{azureWebSiteSlot})"
-      client.sites.createOrUpdateSiteSlot azureResourceGroupName, azureWebSiteName, siteEnvelope, azureWebSiteSlot, null, (err, result, request, response) =>
+      client.sites.listSiteAppSettingsSlot azureResourceGroupName, azureWebSiteName, webSiteSlotTemplate, null, (err, result, request, response) =>
         if err?
            cb(err)
            return
-        @robot.logger.info 'New deployment slot created (REST)'
-        client.sites.listSiteAppSettingsSlot azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, null, (err, result, request, response) =>
+        console.log 'listSiteAppSettingsSlot: Success'
+        console.log 'request'
+        console.log request
+        console.log 'response'
+        console.log response
+        console.log 'result'
+        console.log JSON.toString result
+        console.log result
+        client.sites.getSiteSourceControlSlot azureResourceGroupName, azureWebSiteName, webSiteSlotTemplate, null, (err, result, request, response) =>
           if err?
              cb(err)
              return
-          console.log 'listSiteAppSettingsSlot: Success'
+          console.log 'getSiteSourceControlSlot: Success'
           console.log 'request'
           console.log request
           console.log 'response'
@@ -119,32 +125,41 @@ class AzureDeploy
           console.log 'result'
           console.log JSON.toString result
           console.log result
-          cb err, result
-          return true
-          # gitSetup = [
-          #   {'TARGET_BRANCH': deployOpts.targetBranch},
-          #   {'REQUIRES_GIT_OVERRIDE': true}
-          # ]
-          # newConfig = _.extend(result.appSettings, gitSetup)
-          # client.sites.updateSiteConfigSlot azureResourceGroupName, azureWebSiteName, newConfig, azureWebSiteSlot, null, (err, result, request, response) =>
-          #    if err?
-          #       cb(err)
-          #       return
-          #   @robot.logger.info 'App settings updated'
-        # cb err, result
-        # return true
-                # client.sites.restartSiteSlot azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) =>
-                #   if err?
-                #     cb(err)
-                #     return
-                #   @robot.logger.info 'Deployment slot restarted'
-                #   @robot.logger.info 'Triggering a slot SCM sync'
-                #   client.sites.syncSiteRepository azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) =>
-                #     if err?
-                #       cb(err)
-                #       return
-                #     @robot.logger.info 'Deployment slot repo synced'
-                #     cb err, result
-                #     return true
+          client.sites.createOrUpdateSiteSlot azureResourceGroupName, azureWebSiteName, siteEnvelope, azureWebSiteSlot, null, (err, result, request, response) =>
+            if err?
+               cb(err)
+               return
+            @robot.logger.info 'New deployment slot created (REST)'
+            client.sites.listSiteAppSettingsSlot azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, null, (err, result, request, response) =>
+              if err?
+                 cb(err)
+                 return
+              cb err, result
+              return true
+              # gitSetup = [
+              #   {'TARGET_BRANCH': deployOpts.targetBranch},
+              #   {'REQUIRES_GIT_OVERRIDE': true}
+              # ]
+              # newConfig = _.extend(result.appSettings, gitSetup)
+              # client.sites.updateSiteConfigSlot azureResourceGroupName, azureWebSiteName, newConfig, azureWebSiteSlot, null, (err, result, request, response) =>
+              #    if err?
+              #       cb(err)
+              #       return
+              #   @robot.logger.info 'App settings updated'
+            # cb err, result
+            # return true
+                    # client.sites.restartSiteSlot azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) =>
+                    #   if err?
+                    #     cb(err)
+                    #     return
+                    #   @robot.logger.info 'Deployment slot restarted'
+                    #   @robot.logger.info 'Triggering a slot SCM sync'
+                    #   client.sites.syncSiteRepository azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, (err, result, request, response) =>
+                    #     if err?
+                    #       cb(err)
+                    #       return
+                    #     @robot.logger.info 'Deployment slot repo synced'
+                    #     cb err, result
+                    #     return true
 
 module.exports = AzureDeploy
