@@ -32,7 +32,7 @@ module.exports = (robot) ->
             baseBranch: githubPayload.pull_request.base.ref
             mergeBranch: 'refs/pull/' + githubPayload.number + '/merge'
             headBranch: 'refs/pull/' + githubPayload.number + '/head'
-            mergeable: githubPayload.pull_request.mergeable
+            mergeable: if githubPayload.pull_request.mergeable then true else false
             deploymentStatusRoom: deploymentStatusRoom
           robot.send {room: deploymentStatusRoom}, "Creating new QA site: " + azureOpts.webSiteSlot + " repo " + githubPayload.pull_request.head.repo.git_url + " : " + 'refs/pull/' + githubPayload.number + '/merge'
           azureDeploy = new AzureDeploy robot, process.env

@@ -29,8 +29,6 @@ class HubotAzureDeploy
       webSiteSlotTemplate: process.env.HUBOT_AZURE_DEPLOY_WEBSITE_SLOT_TEMPLATE
 
     @deployOpts =
-      repoUrl: process.env.HUBOT_AZURE_DEPLOY_REPO_URL
-      branch: process.env.HUBOT_AZURE_DEPLOY_BRANCH
       noop: process.env.HUBOT_AZURE_DEPLOY_NOOP
 
     @deployOpts.pagerNoop = false if @deployOpts.pagerNoop is "false" or @deployOpts.pagerNoop is "off"
