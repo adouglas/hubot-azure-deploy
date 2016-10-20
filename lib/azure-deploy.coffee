@@ -123,7 +123,7 @@ class AzureDeploy
 
           @robot.logger.info "New deployment slot created successfully (#{azureResourceGroupName}, #{azureWebSiteName}, #{webSiteSlotTemplate}, #{azureWebSiteSlot})"
 
-          templateAppSettings.id = "/subscriptions/#{@azureSubscriptionId}/resourceGroups/#{azureResourceGroupName}/providers/Microsoft.Web/sites/#{azureWebSiteName}/slots/#{azureWebSiteSlot}/config/appsettings",
+          templateAppSettings.id = "/subscriptions/#{@azureSubscriptionId}/resourceGroups/#{azureResourceGroupName}/providers/Microsoft.Web/sites/#{azureWebSiteName}/slots/#{azureWebSiteSlot}/config/appsettings"
 
           @robot.logger.info "Updating app settings (#{templateAppSettings.id})"
           client.sites.updateSiteAppSettingsSlot azureResourceGroupName, azureWebSiteName, templateAppSettings, azureWebSiteSlot, null, (err, result, request, response) =>
@@ -135,7 +135,7 @@ class AzureDeploy
             @robot.logger.info "App settings updated successfully (#{templateAppSettings.id})"
 
             siteSourceControl =
-              id: "/subscriptions/#{@azureSubscriptionId}/resourceGroups/#{azureResourceGroupName}/providers/Microsoft.Web/sites/#{azureWebSiteName}/slots/#{azureWebSiteSlot}/sourcecontrols/web",
+              id: "/subscriptions/#{@azureSubscriptionId}/resourceGroups/#{azureResourceGroupName}/providers/Microsoft.Web/sites/#{azureWebSiteName}/slots/#{azureWebSiteSlot}/sourcecontrols/web"
               name: azureWebSiteSlot,
               location: 'North Europe',
               type: 'Microsoft.Web/sites/sourcecontrols',
