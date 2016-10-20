@@ -72,7 +72,7 @@ class AzureDeploy
       webSiteSlotTemplate = azureOpts.webSiteSlotTemplate
 
       deployRepoUrl = deployOpts.repoUrl
-      deployBranch = deployOpts.mergeable ? deployOpts.mergeBranch : deployOpts.headBranch
+      deployBranch = if deployOpts.mergeable then deployOpts.mergeBranch else deployOpts.headBranch
       deployNoop = deployOpts.noop
 
       siteConfig = {}
