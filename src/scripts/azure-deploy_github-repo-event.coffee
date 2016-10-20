@@ -29,8 +29,10 @@ module.exports = (robot) ->
             webSiteSlot: 'pull-' + githubPayload.number
           deployOpts =
             repoUrl: githubPayload.pull_request.head.repo.git_url
-            branch: 'master'
-            targetBranch: 'refs/pull/' + githubPayload.number + '/merge'
+            baseBranch: githubPayload.pull_request.base.ref
+            mergeBranch: 'refs/pull/' + githubPayload.number + '/merge'
+            headBranch: 'refs/pull/' + githubPayload.number + '/head'
+            mergeable: githubPayload.pull_request.mergeable
             deploymentStatusRoom: deploymentStatusRoom
           robot.send {room: deploymentStatusRoom}, "Creating new QA site: " + azureOpts.webSiteSlot + " repo " + githubPayload.pull_request.head.repo.git_url + " : " + 'refs/pull/' + githubPayload.number + '/merge'
           azureDeploy = new AzureDeploy robot, process.env
