@@ -56,10 +56,8 @@ class AzureDeploy
     @robot.logger.error 'Error: azureOpts.webSiteSlot is not specified' if not azureOpts.webSiteSlot
     @robot.logger.error 'Error: azureOpts.webSiteSlotTemplate is not specified' if not azureOpts.webSiteSlotTemplate
     @robot.logger.error 'Error: deployOpts.repoUrl is not specified' if not deployOpts.repoUrl
-    @robot.logger.error 'Error: deployOpts.mergeBranch is not specified' if not deployOpts.mergeBranch
-    @robot.logger.error 'Error: deployOpts.headBranch is not specified' if not deployOpts.headBranch
-    @robot.logger.error 'Error: deployOpts.mergeable is not specified' if not deployOpts.mergeable
-    return false unless (azureOpts.resourceGroupName and azureOpts.webSiteDeplymentId and azureOpts.webSiteName and azureOpts.webSiteSlot and azureOpts.webSiteSlotTemplate and deployOpts.repoUrl and deployOpts.mergeBranch and deployOpts.headBranch and deployOpts.mergeable)
+    @robot.logger.error 'Error: deployOpts.deployBranch is not specified' if not deployOpts.deployBranch
+    return false unless (azureOpts.resourceGroupName and azureOpts.webSiteDeplymentId and azureOpts.webSiteName and azureOpts.webSiteSlot and azureOpts.webSiteSlotTemplate and deployOpts.repoUrl and deployOpts.deployBranch)
     if @ready() is true
       azureClientId = @azureClientId
       azureSecret = @azureSecret
@@ -72,7 +70,6 @@ class AzureDeploy
       webSiteSlotTemplate = azureOpts.webSiteSlotTemplate
 
       deployRepoUrl = deployOpts.repoUrl
-      deployBranch = if deployOpts.mergeable then deployOpts.mergeBranch else deployOpts.headBranch
       deployNoop = deployOpts.noop
 
       siteConfig = {}
