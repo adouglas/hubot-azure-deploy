@@ -22,10 +22,10 @@ githubAccessToken = process.env.GITHUB_ACCESS_TOKEN
 
 module.exports = (robot) ->
   robot.respond /deploy ([a-z\-]+):([a-z\/\d\-_]+) to qa$/i, (res) ->
-    if(!res.match || res.match.length < 3){
+    if !res.match? || res.match.length < 3
       res.reply "I'm afraid I don't understand what you want me to deploy."
-      return;
-    }
+      return
+
 
     webSiteSlot = res.match[2].replace('/','-')
     repo = "https://#{gitHubOrgUrl}/#{res.match[1]}"
