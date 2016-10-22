@@ -26,6 +26,7 @@ module.exports = (robot) ->
       res.reply "I'm afraid I don't understand what you want me to deploy."
       return
 
+    deploymentStatusRoom = res.message.user.room
 
     webSiteSlot = res.match[2].replace('/','-')
     repo = "https://#{gitHubOrgUrl}/#{res.match[1]}"
@@ -35,7 +36,7 @@ module.exports = (robot) ->
     deployOpts =
       repoUrl: repo
       deployBranch: res.match[2]
-      deploymentStatusRoom: res.message.user.room
+      deploymentStatusRoom: deploymentStatusRoom
     robot.send {room: deploymentStatusRoom}, "Creating new QA site: " + webSiteSlot + " repo " + repo + " : " + res.match[2]
     azureDeploy = new AzureDeploy robot, process.env
     azureDeploy.deployNewSiteSlot azureOpts, deployOpts, (err, result) ->
