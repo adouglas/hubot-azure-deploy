@@ -70,12 +70,13 @@ class AzureDeploy
       webSiteSlotTemplate = azureOpts.webSiteSlotTemplate
 
       deployRepoUrl = deployOpts.repoUrl
+      deployBranch = deployOpts.deployBranch
       deployNoop = deployOpts.noop
 
       siteConfig = {}
       if deployOpts.hasOwnProperty('targetBranch')
         siteConfig.appSettings =
-          TARGET_BRANCH: deployOpts.deployBranch
+          TARGET_BRANCH: deployBranch
           REQUIRES_GIT_OVERRIDE: true
 
       @_newSiteSlot azureClientId, azureSecret, azureDomain, azureSubscriptionId, azureResourceGroupName, webSiteSlotTemplate, azureWebSiteName, azureWebSiteSlot, deployRepoUrl, deployBranch, deployNoop, siteConfig, cb
