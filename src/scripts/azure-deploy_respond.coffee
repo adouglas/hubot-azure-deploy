@@ -16,34 +16,40 @@
 
 AzureDeploy = require('../azure-deploy')
 
-gitHubOrgUrl = process.env.GITHUB_ORG_URL
+githubOrgUrl = process.env.GITHUB_ORG_URL
 githubUser = process.env.GITHUB_USER
 githubAccessToken = process.env.GITHUB_ACCESS_TOKEN
 
 module.exports = (robot) ->
-  robot.respond /deploy ([a-z\-]+):([a-z\/\d\-_]+) to qa$/i, (res) ->
+  robot.respond /deploy ([a-z\-\d]+):([a-z\/\d\-_]+) to qa( as [a-z\-\d]+)?$/i, (res) ->
     if !res.match? || res.match.length < 3
       res.reply "I'm afraid I don't understand what you want me to deploy."
       return
 
     deploymentStatusRoom = res.message.user.room
 
-    webSiteSlot = res.match[2].replace('/','-')
-    repo = "https://#{gitHubOrgUrl}/#{res.match[1]}"
+    if res.match.length < 4
+      webSiteSlot = res.match[2].replace('/','-')
+    else
+      webSiteSlot = res.match[2].replace(' as ','')
+
+    repo = "https://#{githubOrgUrl}/#{res.match[1]}"
+    branch = res.match[2]
 
     azureOpts =
       webSiteSlot: webSiteSlot
     deployOpts =
       repoUrl: repo
-      deployBranch: res.match[2]
+      deployBranch: branch
       deploymentStatusRoom: deploymentStatusRoom
-    robot.send {room: deploymentStatusRoom}, "Creating new QA site: " + webSiteSlot + " repo " + repo + " : " + res.match[2]
+    robot.send {room: deploymentStatusRoom}, "Creating new QA site: #{webSiteSlot} repo #{repo}:#{branch}"
     azureDeploy = new AzureDeploy robot, process.env
     azureDeploy.deployNewSiteSlot azureOpts, deployOpts, (err, result) ->
       if err?
         robot.logger.error err
         if err.message?
           robot.logger.error err.message
-        robot.logger.error 'An undocumented error occurred'
+        else
+          robot.logger.error 'An undocumented error occurred'
         return
       robot.reply "done"
