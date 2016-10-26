@@ -56,8 +56,9 @@ class AzureDeploy
     @robot.logger.error 'Error: azureOpts.webSiteSlot is not specified' if not azureOpts.webSiteSlot
     @robot.logger.error 'Error: azureOpts.webSiteSlotTemplate is not specified' if not azureOpts.webSiteSlotTemplate
     @robot.logger.error 'Error: deployOpts.repoUrl is not specified' if not deployOpts.repoUrl
+    @robot.logger.error 'Error: deployOpts.repoProtocol is not specified' if not deployOpts.repoProtocol
     @robot.logger.error 'Error: deployOpts.deployBranch is not specified' if not deployOpts.deployBranch
-    return false unless (azureOpts.resourceGroupName and azureOpts.webSiteDeplymentId and azureOpts.webSiteName and azureOpts.webSiteSlot and azureOpts.webSiteSlotTemplate and deployOpts.repoUrl and deployOpts.deployBranch)
+    return false unless (azureOpts.resourceGroupName and azureOpts.webSiteDeplymentId and azureOpts.webSiteName and azureOpts.webSiteSlot and azureOpts.webSiteSlotTemplate and deployOpts.repoUrl and deployOpts.deployBranch and deployOpts.repoProtocol)
     if @ready() is true
       azureClientId = @azureClientId
       azureSecret = @azureSecret
@@ -69,7 +70,11 @@ class AzureDeploy
       azureWebSiteSlot = azureOpts.webSiteSlot
       webSiteSlotTemplate = azureOpts.webSiteSlotTemplate
 
-      deployRepoUrl = deployOpts.repoUrl
+      if deployOpts.repoProtocol is 'http' or 'https'
+        deployRepoUrl = "#{deployOpts.repoProtocol}://#{deployOpts.repoUser}:#{deployOpts.repoAccessToken}@#{deployOpts.repoUrl}"
+      else
+        deployRepoUrl = deployOpts.repoUrl
+
       deployBranch = deployOpts.deployBranch
       deployNoop = deployOpts.noop
 

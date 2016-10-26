@@ -33,13 +33,15 @@ module.exports = (robot) ->
     else
       webSiteSlot = res.match[2].replace(' as ','')
 
-    repo = "https://#{githubOrgUrl}/#{res.match[1]}"
+    repo = "#{githubOrgUrl}/#{res.match[1]}"
+    repoProtocol = 'https'
     branch = res.match[2]
 
     azureOpts =
       webSiteSlot: webSiteSlot
     deployOpts =
       repoUrl: repo
+      repoProtocol: repoProtocol
       deployBranch: branch
       deploymentStatusRoom: deploymentStatusRoom
     robot.send {room: deploymentStatusRoom}, "Creating new QA site: #{webSiteSlot} repo #{repo}:#{branch}"

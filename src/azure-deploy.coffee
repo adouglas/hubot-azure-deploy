@@ -30,6 +30,9 @@ class HubotAzureDeploy
 
     @deployOpts =
       noop: process.env.HUBOT_AZURE_DEPLOY_NOOP
+      repoUser: process.env.GITHUB_USER
+      repoAccessToken: process.env.GITHUB_ACCESS_TOKEN
+
 
     @deployOpts.pagerNoop = false if @deployOpts.pagerNoop is "false" or @deployOpts.pagerNoop is "off"
 
