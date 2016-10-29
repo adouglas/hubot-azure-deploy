@@ -141,43 +141,52 @@ class AzureDeploy
           #
           #   @robot.logger.info "App settings updated successfully (#{templateAppSettings.id})"
 
-          siteSourceControl =
-            id: "/subscriptions/#{@azureSubscriptionId}/resourceGroups/#{azureResourceGroupName}/providers/Microsoft.Web/sites/#{azureWebSiteName}/slots/#{azureWebSiteSlot}/sourcecontrols/web"
-            name: azureWebSiteSlot,
-            location: 'North Europe',
-            type: 'Microsoft.Web/sites/sourcecontrols',
-            repoUrl: deployRepoUrl,
-            branch: deployBranch,
-            isManualIntegration: true,
-            deploymentRollbackEnabled: false,
-            isMercurial: false
-
-          @robot.logger.info "Updating app scm settings (#{azureResourceGroupName}, #{azureWebSiteName}, #{azureWebSiteSlot}, #{deployRepoUrl}, #{deployBranch})"
-
-          client.sites.updateSiteSourceControlSlot azureResourceGroupName, azureWebSiteName, siteSourceControl, azureWebSiteSlot, null, (err, result, request, response) =>
+          msRestAzure.loginWithServicePrincipalSecret azureClientId, azureSecret, azureDomain, (err, credentials) =>
             if err?
-               @robot.logger.error "App scm settings update failed (#{azureResourceGroupName}, #{azureWebSiteName}, #{azureWebSiteSlot}, #{deployRepoUrl}, #{deployBranch})"
-               cb(err)
-               return
+                @robot.logger.error 'Error Logging in to Azure (REST)'
+                @robot.logger.error err
+                cb(err)
+                return
+            @robot.logger.info 'Logged in to Azure (REST)'
+            client = new webSiteManagementClient(credentials, @azureSubscriptionId)
 
-            @robot.logger.info request
-            @robot.logger.info result
-            @robot.logger.info response
+            siteSourceControl =
+              id: "/subscriptions/#{@azureSubscriptionId}/resourceGroups/#{azureResourceGroupName}/providers/Microsoft.Web/sites/#{azureWebSiteName}/slots/#{azureWebSiteSlot}/sourcecontrols/web"
+              name: azureWebSiteSlot,
+              location: 'North Europe',
+              type: 'Microsoft.Web/sites/sourcecontrols',
+              repoUrl: deployRepoUrl,
+              branch: deployBranch,
+              isManualIntegration: true,
+              deploymentRollbackEnabled: false,
+              isMercurial: false
 
-            @robot.logger.info "App scm settings updated successfully (#{azureResourceGroupName}, #{azureWebSiteName}, #{azureWebSiteSlot}, #{deployRepoUrl}, #{deployBranch})"
+            @robot.logger.info "Updating app scm settings (#{azureResourceGroupName}, #{azureWebSiteName}, #{azureWebSiteSlot}, #{deployRepoUrl}, #{deployBranch})"
 
-            @robot.logger.info "Sync site repository (#{siteSourceControl})"
-
-            client.sites.syncSiteRepositorySlot azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, null, (err, result, request, response) =>
+            client.sites.updateSiteSourceControlSlot azureResourceGroupName, azureWebSiteName, siteSourceControl, azureWebSiteSlot, null, (err, result, request, response) =>
               if err?
-                 @robot.logger.error "Sync site repository failed (#{siteSourceControl})"
+                 @robot.logger.error "App scm settings update failed (#{azureResourceGroupName}, #{azureWebSiteName}, #{azureWebSiteSlot}, #{deployRepoUrl}, #{deployBranch})"
                  cb(err)
                  return
 
-              @robot.logger.info "Sync site repository successfull (#{siteSourceControl})"
+              @robot.logger.info request
+              @robot.logger.info result
+              @robot.logger.info response
 
-              cb err, result
-              return true
+              @robot.logger.info "App scm settings updated successfully (#{azureResourceGroupName}, #{azureWebSiteName}, #{azureWebSiteSlot}, #{deployRepoUrl}, #{deployBranch})"
+
+              @robot.logger.info "Sync site repository (#{siteSourceControl})"
+
+              client.sites.syncSiteRepositorySlot azureResourceGroupName, azureWebSiteName, azureWebSiteSlot, null, (err, result, request, response) =>
+                if err?
+                   @robot.logger.error "Sync site repository failed (#{siteSourceControl})"
+                   cb(err)
+                   return
+
+                @robot.logger.info "Sync site repository successfull (#{siteSourceControl})"
+
+                cb err, result
+                return true
 
 
 module.exports = AzureDeploy
