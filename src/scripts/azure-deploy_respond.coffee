@@ -29,9 +29,9 @@ module.exports = (robot) ->
     deploymentStatusRoom = res.message.user.room
 
     if res.match.length < 4
-      webSiteSlot = res.match[2].replace('/','-')
+      webSiteSlot = res.match[3].replace('/','-')
     else
-      webSiteSlot = res.match[2].replace(' as ','')
+      webSiteSlot = res.match[3].replace(' as ','')
 
     repo = "#{githubOrgUrl}/#{res.match[1]}"
     repoProtocol = 'https'
