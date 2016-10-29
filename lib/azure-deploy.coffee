@@ -116,7 +116,7 @@ class AzureDeploy
 
         @robot.logger.info "List template app settings successfull (#{azureResourceGroupName}, #{azureWebSiteName}, #{webSiteSlotTemplate}"
 
-        robot.logger.info request
+        @robot.logger.info request
         @robot.logger.info result
         @robot.logger.info response
 
