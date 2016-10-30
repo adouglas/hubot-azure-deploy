@@ -130,25 +130,16 @@ class AzureDeploy
 
           @robot.logger.info "New deployment slot created successfully (#{azureResourceGroupName}, #{azureWebSiteName}, #{webSiteSlotTemplate}, #{azureWebSiteSlot})"
 
-          # templateAppSettings.id = "/subscriptions/#{@azureSubscriptionId}/resourceGroups/#{azureResourceGroupName}/providers/Microsoft.Web/sites/#{azureWebSiteName}/slots/#{azureWebSiteSlot}/config/appsettings"
-          #
-          # @robot.logger.info "Updating app settings (#{templateAppSettings.id})"
-          # client.sites.updateSiteAppSettingsSlot azureResourceGroupName, azureWebSiteName, templateAppSettings, azureWebSiteSlot, null, (err, result, request, response) =>
-          #   if err?
-          #      @robot.logger.error "App settings updated failed (#{templateAppSettings.id})"
-          #      cb(err)
-          #      return
-          #
-          #   @robot.logger.info "App settings updated successfully (#{templateAppSettings.id})"
+          templateAppSettings.id = "/subscriptions/#{@azureSubscriptionId}/resourceGroups/#{azureResourceGroupName}/providers/Microsoft.Web/sites/#{azureWebSiteName}/slots/#{azureWebSiteSlot}/config/appsettings"
 
-          msRestAzure.loginWithServicePrincipalSecret azureClientId, azureSecret, azureDomain, (err, credentials) =>
+          @robot.logger.info "Updating app settings (#{templateAppSettings.id})"
+          client.sites.updateSiteAppSettingsSlot azureResourceGroupName, azureWebSiteName, templateAppSettings, azureWebSiteSlot, null, (err, result, request, response) =>
             if err?
-                @robot.logger.error 'Error Logging in to Azure (REST)'
-                @robot.logger.error err
-                cb(err)
-                return
-            @robot.logger.info 'Logged in to Azure (REST)'
-            client = new webSiteManagementClient(credentials, @azureSubscriptionId)
+               @robot.logger.error "App settings updated failed (#{templateAppSettings.id})"
+               cb(err)
+               return
+
+            @robot.logger.info "App settings updated successfully (#{templateAppSettings.id})"
 
             siteSourceControl =
               id: "/subscriptions/#{@azureSubscriptionId}/resourceGroups/#{azureResourceGroupName}/providers/Microsoft.Web/sites/#{azureWebSiteName}/slots/#{azureWebSiteSlot}/sourcecontrols/web"
