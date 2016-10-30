@@ -15,9 +15,6 @@
   },
   "dependencies": {
     "azure": "1.2.0-preview",
-    "azure-common": "0.9.18",
-    "ms-rest": "1.15.2",
-    "ms-rest-azure": "1.15.2",
     "underscore": "^1.8.3"
   },
   "peerDependencies": {
